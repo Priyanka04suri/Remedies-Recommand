@@ -1,0 +1,11 @@
+streamlit
+google-generativeai
+python-dotenv
+langchain
+PyPDF2
+langchain_google_genai
+faiss-cpu
+langchain.text_splitter
+langchain.vectorstores
+langchain.chains.question_answering
+langchain.prompts
