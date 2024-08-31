@@ -8,13 +8,9 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
-
-# Configure Google Generative AI API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Function to create the conversational chain
 def get_conversational_chain():
     prompt_template = """
    Please provide detailed information about the disease Disease . The information should include:
@@ -38,22 +34,16 @@ def get_conversational_chain():
 
     return chain
 
-# Function to handle user input and get a response
 def user_input(user_disease):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     
-    # Load the FAISS index
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     docs = new_db.similarity_search(user_disease)
-
-    # Get the conversational chain
     chain = get_conversational_chain()
     
-    # Generate the response
     response = chain.invoke({"input_documents": docs, "user_disease": user_disease}, return_only_outputs=True)
     print(response)
 
-# Main function to run the script
 def main():
     user_disease = "malaria"
     user_input(user_disease)
